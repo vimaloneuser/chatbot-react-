@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import queryString from 'query-string';
 import io from "socket.io-client";
-
-import TextContainer from '../TextContainer/TextContainer';
 import Messages from '../Messages/Messages';
 import InfoBar from '../InfoBar/InfoBar';
 import Input from '../Input/Input';
@@ -13,21 +10,19 @@ const ENDPOINT = 'https://chatbot-demo-node.herokuapp.com/';
 
 let socket;
 
-const Chat = ({ location }) => {
-  const [name, setName] = useState('vimal');
-  const [room, setRoom] = useState('');
+const Chat = () => {
   const [active, setactive] = useState(1);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     socket = io(ENDPOINT);
-    socket.emit('join', { name }, (error) => {
+    socket.emit('join', { name:"Vimal" }, (error) => {
       if (error) {
         alert(error);
       }
     });
-  }, []);
+  }, [ENDPOINT]);
 
   useEffect(() => {
     socket.on('message', message => {
@@ -52,9 +47,9 @@ const Chat = ({ location }) => {
     <div className="outerContainer">
       <div className="container">
         <div style={{ display: "flex" }}>
-          <button onClick={() => changeClient(1)} className={`btn ${active == 1 && "btnBack"}`} >Client 1</button>
-          <button onClick={() => changeClient(2)} className={`btn ${active == 2 && "btnBack"}`} >Client 2</button></div>
-        <InfoBar room={room} />
+          <button onClick={() => changeClient(1)} className={`btn ${active === 1 && "btnBack"}`} >Client 1</button>
+          <button onClick={() => changeClient(2)} className={`btn ${active === 2 && "btnBack"}`} >Client 2</button></div>
+        <InfoBar room={"1"} />
         <Messages messages={messages} name={"you"} />
         <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
       </div>
