@@ -22,7 +22,7 @@ const Chat = () => {
         alert(error);
       }
     });
-  }, [ENDPOINT]);
+  }, []);
 
   useEffect(() => {
     socket.on('message', message => {
