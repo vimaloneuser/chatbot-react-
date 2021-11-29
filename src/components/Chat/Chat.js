@@ -9,7 +9,7 @@ import Input from '../Input/Input';
 
 import './Chat.css';
 
-const ENDPOINT = 'http://192.168.97.98:5000/';
+const ENDPOINT = 'https://chatbot-demo-node.herokuapp.com/';
 
 let socket;
 
