@@ -6,7 +6,7 @@ import Input from '../Input/Input';
 
 import './Chat.css';
 
-const ENDPOINT = 'https://192.168.97.98:5000/';
+const ENDPOINT = 'http://cardboard-admin-api.project-demo.info:4000/';
 
 let socket;
 
