@@ -6,7 +6,7 @@ import Input from '../Input/Input';
 
 import './Chat.css';
 
-const ENDPOINT = 'https://chatbot-demo-node.herokuapp.com/';
+const ENDPOINT = 'https://192.168.97.98:5000/';
 
 let socket;
 
@@ -17,7 +17,7 @@ const Chat = () => {
 
   useEffect(() => {
     socket = io(ENDPOINT);
-    socket.emit('join', { name:"Vimal" }, (error) => {
+    socket.emit('join', { name: "Vimal" }, (error) => {
       if (error) {
         alert(error);
       }
@@ -26,14 +26,14 @@ const Chat = () => {
 
   useEffect(() => {
     socket.on('message', message => {
-      console.log("ssjsjj")
+      console.log(message,"ssjsjj")
       setMessages(messages => [...messages, message]);
     });
   }, []);
 
   const sendMessage = (event) => {
     event.preventDefault();
-    setMessages([...messages, { user: "me", text: message }]);
+    setMessages([...messages, { user: "me", answer: message }]);
     if (message) {
       socket.emit('sendMessage', message, () => setMessage(''));
     }
@@ -42,13 +42,13 @@ const Chat = () => {
     socket.emit('changeClient', number, () => setMessage(''));
     setactive(number);
   }
-
+console.log(messages)
   return (
     <div className="outerContainer">
       <div className="container">
-        <div style={{ display: "flex" }}>
+        {/* <div style={{ display: "flex" }}>
           <button onClick={() => changeClient(1)} className={`btn ${active === 1 && "btnBack"}`} >Client 1</button>
-          <button onClick={() => changeClient(2)} className={`btn ${active === 2 && "btnBack"}`} >Client 2</button></div>
+          <button onClick={() => changeClient(2)} className={`btn ${active === 2 && "btnBack"}`} >Client 2</button></div> */}
         <InfoBar room={"1"} />
         <Messages messages={messages} name={"you"} />
         <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
