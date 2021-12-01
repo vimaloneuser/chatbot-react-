@@ -11,7 +11,6 @@ const ENDPOINT = 'https://cardboard-admin-api.project-demo.info:4000/';
 let socket;
 
 const Chat = () => {
-  const [active, setactive] = useState(1);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
@@ -38,10 +37,7 @@ const Chat = () => {
       socket.emit('sendMessage', message, () => setMessage(''));
     }
   }
-  const changeClient = (number) => {
-    socket.emit('changeClient', number, () => setMessage(''));
-    setactive(number);
-  }
+
 console.log(messages)
   return (
     <div className="outerContainer">
