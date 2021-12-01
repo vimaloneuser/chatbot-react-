@@ -13,19 +13,22 @@ let socket;
 const Chat = () => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [roomId, setRoomId] = useState("");
 
   useEffect(() => {
     socket = io(ENDPOINT);
-    socket.emit('join', { name: "Vimal" }, (error) => {
-      if (error) {
-        alert(error);
-      }
-    });
+    socket.emit('join', { token: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksImVtYWlsIjoidmltYWxwKzhAZ21haWwuY29tIiwiY2xpZW50SWQiOjEyLCJyb2xlIjoicGF0aWVudCIsImlhdCI6MTYzODM2OTI0NCwiZXhwIjoxNjM4NDEyNDQ0fQ.WXMmjoCI184p8jDDLlu7vy4Yy6ZJt6POOVY1HA-tdMo" },
+      res => {
+        console.log(res)
+        if (res.error) {
+          alert(res.error);
+        }
+        setRoomId(res.roomId);
+      });
   }, []);
 
   useEffect(() => {
     socket.on('message', message => {
-      console.log(message,"ssjsjj")
       setMessages(messages => [...messages, message]);
     });
   }, []);
@@ -34,11 +37,10 @@ const Chat = () => {
     event.preventDefault();
     setMessages([...messages, { user: "me", answer: message }]);
     if (message) {
-      socket.emit('sendMessage', message, () => setMessage(''));
+      socket.emit('sendMessage', { message: message, roomId }, () => setMessage(''));
     }
   }
-
-console.log(messages)
+  console.log(messages)
   return (
     <div className="outerContainer">
       <div className="container">
